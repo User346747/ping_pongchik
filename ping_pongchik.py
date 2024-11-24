@@ -49,28 +49,32 @@ class Player2(GameSprite):
 class Enemy(GameSprite):
     def __init__(self, player_image, player_x, player_y, player_speed, w, h):
         super().__init__(player_image, player_x, player_y, player_speed, w, h)
-    def update(self):
-        global skip
-        if self.rect.y <= 500:
-            self.rect.y += self.speed
-        if self.rect.y >= 480:
-            self.rect.y -=520
-            self.rect.x = randint(5,700)
-            skip += 1
+
 
 desk1 = Player1('desk.png', 25, win_height - 400, 40,20,180)
-
+ball = Enemy('ball.png', 50, 4, 3, 65, 65)
 desk2 = Player2('desk.png', 650, win_height - 200, 4,20,180)
-
-
+finish = False
+speed_x = 3
+speed_y = 3
 while game:
     for e in event.get():
         if e.type == QUIT:
             game = False
 
+    if finish != True:
+        ball.rect.x += speed_x
+        ball.rect.y += speed_y
+
+    if ball.rect.y > win_height-50 or ball.rect.y < 0:
+        speed_y *= -1
+
+    if ball.rect.x > win_width-50 or ball.rect.x < 0:
+        speed_x *= -1
 
     window.blit(background, (0,0))
-
+    ball.update()
+    ball.reset()
     desk1.update()
     desk1.reset()
     desk2.update()

@@ -5,6 +5,8 @@ font2 = font.Font(None, 36)
 win_height = 500
 win_width = 700
 window = display.set_mode((win_width, win_height))
+desk = transform.scale(image.load("desk.png"), (100, 90))
+ball = transform.scale(image.load("ball.png"), (100, 90))
 display.set_caption("Пинг понг")
 white = [200,200,255]
 window.fill(white)
@@ -33,6 +35,18 @@ class Player(GameSprite):
             self.rect.y -= 5
         if keys_pressed[K_s]:
             self.rect.y += 5
+
+class Enemy(GameSprite):
+    def __init__(self, player_image, player_x, player_y, player_speed, w, h):
+        super().__init__(player_image, player_x, player_y, player_speed, w, h)
+    def update(self):
+        global skip
+        if self.rect.y <= 500:
+            self.rect.y += self.speed
+        if self.rect.y >= 480:
+            self.rect.y -=520
+            self.rect.x = randint(5,700)
+            skip += 1
 
 
 while game:

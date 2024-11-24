@@ -57,6 +57,14 @@ desk2 = Player2('desk.png', 650, win_height - 200, 4,20,180)
 finish = False
 speed_x = 3
 speed_y = 3
+
+
+balls = sprite.Group()
+desks = sprite.Group()
+desks.add(desk1)
+desks.add(desk2)
+balls.add(ball)
+
 while game:
     for e in event.get():
         if e.type == QUIT:
@@ -70,6 +78,12 @@ while game:
         speed_y *= -1
 
     if ball.rect.x > win_width-50 or ball.rect.x < 0:
+        finish = True
+
+
+
+    collides = sprite.groupcollide(balls, desks, False, False)
+    for c in collides:
         speed_x *= -1
 
     window.blit(background, (0,0))
